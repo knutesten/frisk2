@@ -19,17 +19,6 @@ public class FriskApplication extends Application<FriskConfiguration> {
     @Override
     public void run(FriskConfiguration configuration, Environment environment) throws Exception {
         DataSourceFactory dataSourceFactory = configuration.getDataSourceFactory();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println(configuration.getDataSourceFactory().getUrl());
-        System.out.println(configuration.getDataSourceFactory().getPassword());
-        System.out.println(configuration.getDataSourceFactory().getUser());
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSourceFactory.getUrl(), dataSourceFactory.getUser(), dataSourceFactory.getPassword());
         //flyway.migrate();

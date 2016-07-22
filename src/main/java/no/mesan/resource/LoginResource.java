@@ -1,33 +1,57 @@
 package no.mesan.resource;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.jsonwebtoken.Jwts;
 import no.mesan.auth.DiscoveryDocument;
+import no.mesan.auth.FriskSigningKeyResolver;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.client.Client;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Request;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 
 /**
  * Created by knutn on 7/21/2016.
  */
-@Path("/login")
+@Path("/auth")
 public class LoginResource {
     private DiscoveryDocument discoveryDocument = new DiscoveryDocument();
 
     @GET
-    public Response login() throws MalformedURLException {
+    @Path("/login")
+    public Response redirectToConnectIdService() {
         URI loginUrl = UriBuilder.fromUri(discoveryDocument.getAuthorizationEndpoint())
-                .queryParam("client_id", "241147659016-791b524s2vffs0ogt4mnoq2ole988tcu.apps.googleusercontent.com")
+                .queryParam("client_id", discoveryDocument.getClientId())
                 .queryParam("response_type", "code")
                 .queryParam("scope", "openid email")
-                .queryParam("redirect_uri", "http://localhost:8080/openid")
-                .queryParam("state", "teststate").build();
+                .queryParam("redirect_uri", "http://localhost:8080/auth/code").build();
 
-        return Response.status(Response.Status.FOUND).location(loginUrl).build();
+        return Response.temporaryRedirect(loginUrl).build();
+    }
+
+    @GET
+    @Path("/code")
+    public Response handleCode(@QueryParam("code") String code) {
+        // TODO: Check that state equals that of the request.
+
+        Form form = new Form()
+                .param("code", code)
+                .param("client_id", discoveryDocument.getClientId())
+                .param("client_secret", discoveryDocument.getClientSecret())
+                .param("grant_type", "authorization_code")
+                .param("redirect_uri", "http://localhost:8080/auth/code");
+
+        Response response = ClientBuilder.newClient().target(discoveryDocument.getTokenEndpoint())
+                .request()
+                .post(Entity.form(form));
+
+        String idToken = response.readEntity(JsonNode.class).get("id_token").asText();
+        Jwts.parser().setSigningKeyResolver(new FriskSigningKeyResolver()).parseClaimsJws(idToken).getBody().get("email", String.class);
+
+        return Response.temporaryRedirect(URI.create("/test")).build();
     }
 }
