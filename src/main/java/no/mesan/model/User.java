@@ -6,22 +6,43 @@ import java.security.Principal;
  * Created by knutn on 7/21/2016.
  */
 public class User implements Principal{
-    private String email;
-    private String name;
+    private final int id;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final String username;
 
-    public void setName(String name) {
-        this.name = name;
+    public User(int id, String firstName, String lastName, String email, String username) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
     }
-    @Override
-    public String getName() {
-        return null;
+
+    public int getId() {
+        return id;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public String getName() {
+        return username;
     }
 }

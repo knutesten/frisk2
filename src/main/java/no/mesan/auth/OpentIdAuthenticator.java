@@ -15,10 +15,6 @@ public class OpentIdAuthenticator implements Authenticator<String, User> {
     public Optional<User> authenticate(String token) throws AuthenticationException {
         System.out.println("Token: " + token);
 
-        User user = new User();
-        user.setEmail("test@testesten.no");
-        user.setName("hestemann");
-
-        return Optional.of(user);
+        return Optional.of(null);
     }
 }
