@@ -3,13 +3,13 @@ database:
   driverClass: org.postgresql.Driver
 
   # the username
-  user: postgres
+  user: frisk
 
   # the password
-  password: Postgres1234
+  password:
 
   # the JDBC URL
-  url: jdbc:postgresql://localhost/frisk
+  url: jdbc:postgresql://localhost/frisk2
 
   # any properties specific to your JDBC driver:
   properties:

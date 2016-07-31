@@ -1,4 +1,0 @@
-CREATE TABLE project (
-  id INT AUTO_INCREMENT,
-  name VARCHAR(255)
-);

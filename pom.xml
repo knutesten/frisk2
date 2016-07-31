@@ -9,14 +9,11 @@
     <version>0.0.1</version>
 
     <properties>
-        <dropwizard.version>0.9.3</dropwizard.version>
+        <dropwizard.version>1.0.0</dropwizard.version>
         <dropwizard-java8.version>0.9.0-1</dropwizard-java8.version>
         <flyway.version>4.0.3</flyway.version>
         <jjwt.version>0.6.0</jjwt.version>
-
-        <flyway.user>postgres</flyway.user>
-        <flyway.password>Postgres1234</flyway.password>
-        <flyway.url>jdbc:postgresql://localhost/frisk</flyway.url>
+        <postgres.version>9.4.1207</postgres.version>
     </properties>
 
     <dependencies>
@@ -64,9 +61,9 @@
             <version>4.0.3</version>
        </dependency>
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.1-901.jdbc4</version>
+            <version>${postgres.version}</version>
         </dependency>
     </dependencies>
 
