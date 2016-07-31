@@ -7,9 +7,6 @@ import no.mesan.model.User;
 
 import java.util.Optional;
 
-/**
- * Created by knutn on 7/21/2016.
- */
 public class OpentIdAuthenticator implements Authenticator<String, User> {
     @Override
     public Optional<User> authenticate(String token) throws AuthenticationException {

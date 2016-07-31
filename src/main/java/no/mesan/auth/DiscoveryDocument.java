@@ -13,9 +13,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 
-/**
- * Created by knutn on 7/21/2016.
- */
 // TODO: Make me beautiful (ie. get the static finals strings/URIs into the config-file and find a way to initiate class without having to pass the variables to LoginResource).
 public class DiscoveryDocument {
     private static JsonNode discoveryDocument;

@@ -6,9 +6,6 @@ import io.jsonwebtoken.SigningKeyResolver;
 
 import java.security.Key;
 
-/**
- * Created by knutn on 7/22/2016.
- */
 public class FriskSigningKeyResolver implements SigningKeyResolver {
     private DiscoveryDocument discoveryDocument = new DiscoveryDocument();
 

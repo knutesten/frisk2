@@ -2,9 +2,6 @@ package no.mesan.model;
 
 import java.security.Principal;
 
-/**
- * Created by knutn on 7/21/2016.
- */
 public class User implements Principal{
     private final int id;
     private final String firstName;

@@ -11,9 +11,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
-/**
- * Created by knutn on 7/22/2016.
- */
 public class AuthenticationService {
     private DiscoveryDocument discoveryDocument = new DiscoveryDocument();
 
