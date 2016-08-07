@@ -1,5 +1,6 @@
 package no.mesan.resource;
 
+import io.dropwizard.auth.Auth;
 import no.mesan.dao.UserDao;
 import no.mesan.model.User;
 
@@ -10,14 +11,14 @@ import javax.ws.rs.Produces;
 @Path("/test")
 @Produces("application/json")
 public class TestResource {
-    public UserDao userDao;
+    private UserDao userDao;
 
     public TestResource(UserDao userDao) {
         this.userDao = userDao;
     }
 
     @GET
-    public User test() {
-        return userDao.getUserByEmail("knut.neksa@gmail.com");
+    public User test(@Auth User user) {
+        return user;
     }
 }
