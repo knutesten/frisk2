@@ -1,0 +1,1 @@
+ALTER TABLE frisk_consume_type RENAME TO consume_type;
