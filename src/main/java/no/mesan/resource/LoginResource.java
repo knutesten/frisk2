@@ -7,6 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Path("/api/auth")
@@ -29,7 +30,9 @@ public class LoginResource {
     public Response exchangeCodeForToken(@QueryParam("code") String code, @QueryParam("state") String state) {
         final Optional<String> token = authenticationService.exchangeCodeForAccessToken(code, state);
         return token.isPresent() ?
-                Response.ok(token.get()).build() :
+                Response.ok(new HashMap<String, Object>() {{
+                    put("jwtToken", token.get());
+                }}).build() :
                 Response.status(Response.Status.UNAUTHORIZED).build();
     }
 }
