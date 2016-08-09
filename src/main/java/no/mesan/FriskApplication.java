@@ -5,11 +5,12 @@ import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.java8.auth.AuthDynamicFeature;
 import io.dropwizard.java8.auth.oauth.OAuthCredentialAuthFilter;
-import io.dropwizard.jdbi.DBIFactory;
+import io.dropwizard.java8.jdbi.DBIFactory;
+import io.dropwizard.java8.jdbi.OptionalContainerFactory;
 import io.dropwizard.setup.Environment;
 import no.mesan.auth.AuthenticationService;
-import no.mesan.auth.OpenIdUtil;
 import no.mesan.auth.OpenIdAuthenticator;
+import no.mesan.auth.OpenIdUtil;
 import no.mesan.config.FriskConfiguration;
 import no.mesan.dao.UserDao;
 import no.mesan.model.User;
@@ -33,6 +34,7 @@ public class FriskApplication extends Application<FriskConfiguration> {
 
         DBIFactory factory = new DBIFactory();
         DBI jdbi = factory.build(environment, dataSourceFactory, "postgresql");
+        jdbi.registerContainerFactory(new OptionalContainerFactory());
 
         environment.jersey().register(new AuthDynamicFeature(
                 new OAuthCredentialAuthFilter.Builder<User>()
@@ -45,6 +47,7 @@ public class FriskApplication extends Application<FriskConfiguration> {
         environment.jersey().register(new TestResource(jdbi.onDemand(UserDao.class)));
         environment.jersey().register(new LoginResource(
                 new AuthenticationService(
-                        new OpenIdUtil(configuration.getOpenIdconfiguration()))));
+                        new OpenIdUtil(configuration.getOpenIdconfiguration()),
+                        jdbi.onDemand(UserDao.class))));
     }
 }

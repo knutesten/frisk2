@@ -23,7 +23,7 @@ public class OpenIdAuthenticator implements Authenticator<String, User> {
                     .setSigningKey("secret")
                     .parseClaimsJws(token)
                     .getBody();
-            return Optional.of(userDao.getUserByEmail((String)claims.get("email")));
+            return userDao.getUserByEmail((String)claims.get("email"));
         } catch (MalformedJwtException | ExpiredJwtException | SignatureException e) {
             return Optional.empty();
         }

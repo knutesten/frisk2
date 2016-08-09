@@ -24,18 +24,18 @@
         </dependency>
         <dependency>
             <groupId>io.dropwizard.modules</groupId>
+            <artifactId>dropwizard-java8</artifactId>
+            <version>${dropwizard-java8.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.modules</groupId>
             <artifactId>dropwizard-java8-auth</artifactId>
             <version>${dropwizard-java8.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-auth</artifactId>
-            <version>${dropwizard.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-jdbi</artifactId>
-            <version>${dropwizard.version}</version>
+            <groupId>io.dropwizard.modules</groupId>
+            <artifactId>dropwizard-java8-jdbi</artifactId>
+            <version>${dropwizard-java8.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -83,7 +83,7 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
-                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>

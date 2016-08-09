@@ -2,7 +2,7 @@ package no.mesan.auth;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.jsonwebtoken.*;
-import no.mesan.config.OpenIdConfiguration;
+import no.mesan.dao.UserDao;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -15,6 +15,8 @@ import java.util.Optional;
 
 public class AuthenticationService {
     private OpenIdUtil openIdUtil;
+    private UserDao userDao;
+
     private SigningKeyResolver signingKeyResolver= new SigningKeyResolver() {
         @Override
         public Key resolveSigningKey(JwsHeader jwsHeader, Claims claims) {
@@ -26,8 +28,9 @@ public class AuthenticationService {
         }
     };
 
-    public AuthenticationService(OpenIdUtil openIdUtil) {
+    public AuthenticationService(OpenIdUtil openIdUtil, UserDao userDao) {
         this.openIdUtil = openIdUtil;
+        this.userDao = userDao;
     }
 
     public URI createLoginUrl() {
@@ -61,10 +64,12 @@ public class AuthenticationService {
                     .getBody()
                     .get("email", String.class);
 
-            return Optional.of(Jwts.builder()
-                    .claim("email", email)
-                    .signWith(SignatureAlgorithm.HS512, "secret")
-                    .compact());
+            return userDao.getUserByEmail(email).isPresent() ?
+                    Optional.of(Jwts.builder()
+                            .claim("email", email)
+                            .signWith(SignatureAlgorithm.HS512, "secret")
+                            .compact()):
+                    Optional.empty();
         }
 
         return Optional.empty();
