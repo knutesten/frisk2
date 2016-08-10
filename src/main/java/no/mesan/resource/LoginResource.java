@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Optional;
 
-@Path("/api/auth")
+@Path("/auth")
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginResource {
     private AuthenticationService authenticationService;

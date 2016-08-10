@@ -12,10 +12,13 @@ import no.mesan.auth.AuthenticationService;
 import no.mesan.auth.OpenIdAuthenticator;
 import no.mesan.auth.OpenIdUtil;
 import no.mesan.config.FriskConfiguration;
+import no.mesan.dao.LogDao;
 import no.mesan.dao.UserDao;
 import no.mesan.model.User;
+import no.mesan.resource.LogResource;
 import no.mesan.resource.LoginResource;
 import no.mesan.resource.TestResource;
+import no.mesan.service.LogService;
 import org.flywaydb.core.Flyway;
 import org.skife.jdbi.v2.DBI;
 
@@ -36,6 +39,7 @@ public class FriskApplication extends Application<FriskConfiguration> {
         DBI jdbi = factory.build(environment, dataSourceFactory, "postgresql");
         jdbi.registerContainerFactory(new OptionalContainerFactory());
 
+        environment.jersey().setUrlPattern("/api");
         environment.jersey().register(new AuthDynamicFeature(
                 new OAuthCredentialAuthFilter.Builder<User>()
                         .setAuthenticator(new OpenIdAuthenticator(jdbi.onDemand(UserDao.class)))
@@ -49,5 +53,8 @@ public class FriskApplication extends Application<FriskConfiguration> {
                 new AuthenticationService(
                         new OpenIdUtil(configuration.getOpenIdconfiguration()),
                         jdbi.onDemand(UserDao.class))));
+        environment.jersey().register(new LogResource(
+                new LogService(jdbi.onDemand(LogDao.class))
+        ));
     }
 }
