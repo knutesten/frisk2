@@ -12,6 +12,6 @@ public class LogService {
     }
 
     public ImmutableList<LogEntry> getLog() {
-        return logDao.getLog();
+        return logDao.getLog(10, 0);
     }
 }
