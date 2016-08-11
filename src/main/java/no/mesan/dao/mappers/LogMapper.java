@@ -6,8 +6,6 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 public class LogMapper implements ResultSetMapper<LogEntry>{
     private final UserMapper userMapper = new UserMapper("user_id");
@@ -17,7 +15,7 @@ public class LogMapper implements ResultSetMapper<LogEntry>{
     public LogEntry map(int i, ResultSet resultSet, StatementContext statementContext) throws SQLException {
         return new LogEntry(
                 resultSet.getInt("log_id"),
-                ZonedDateTime.of(resultSet.getTimestamp("date").toLocalDateTime(), ZoneId.systemDefault()),
+                resultSet.getTimestamp("date").toInstant(),
                 userMapper.map(i, resultSet, statementContext),
                 typeMapper.map(i, resultSet, statementContext)
         );

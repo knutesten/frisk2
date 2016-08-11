@@ -1,5 +1,6 @@
 package no.mesan;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.db.DataSourceFactory;
@@ -38,6 +39,8 @@ public class FriskApplication extends Application<FriskConfiguration> {
         DBIFactory factory = new DBIFactory();
         DBI jdbi = factory.build(environment, dataSourceFactory, "postgresql");
         jdbi.registerContainerFactory(new OptionalContainerFactory());
+
+        environment.getObjectMapper().disable(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS);
 
         environment.jersey().setUrlPattern("/api");
         environment.jersey().register(new AuthDynamicFeature(

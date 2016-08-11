@@ -1,14 +1,14 @@
 package no.mesan.model;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 public class LogEntry {
     private int id;
-    private ZonedDateTime date;
+    private Instant date;
     private User user;
     private Type type;
 
-    public LogEntry(int id, ZonedDateTime date, User user, Type type) {
+    public LogEntry(int id, Instant date, User user, Type type) {
         this.id = id;
         this.date = date;
         this.user = user;
@@ -19,7 +19,7 @@ public class LogEntry {
         return id;
     }
 
-    public ZonedDateTime getDate() {
+    public Instant getDate() {
         return date;
     }
 
