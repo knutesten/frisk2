@@ -7,7 +7,7 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-class TypeMapper implements ResultSetMapper<Type> {
+public class TypeMapper implements ResultSetMapper<Type> {
     private final String idName;
 
     public TypeMapper() {

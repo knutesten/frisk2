@@ -5,6 +5,7 @@ import no.mesan.dao.mappers.LogMapper;
 import no.mesan.model.LogEntry;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
+import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 public interface LogDao {
@@ -18,5 +19,9 @@ public interface LogDao {
               "ORDER BY date DESC " +
               "LIMIT :limit OFFSET :offset")
     ImmutableList<LogEntry> getLog(@Bind("limit") int limit, @Bind("offset") int offset);
+
+
+    @SqlUpdate("INSERT INTO log (date, user_id, type_id) VALUES (NOW(), :userId, :typeId)")
+    int insert(@Bind("userId") int userId, @Bind("typeId") int typeId);
 }
 
