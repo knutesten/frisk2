@@ -13,12 +13,15 @@ import no.mesan.auth.AuthenticationService;
 import no.mesan.auth.OpenIdAuthenticator;
 import no.mesan.auth.OpenIdUtil;
 import no.mesan.config.FriskConfiguration;
+import no.mesan.dao.LeaderboardDao;
 import no.mesan.dao.LogDao;
 import no.mesan.dao.UserDao;
 import no.mesan.model.User;
+import no.mesan.resource.LeaderboardResource;
 import no.mesan.resource.LogResource;
 import no.mesan.resource.LoginResource;
 import no.mesan.resource.TestResource;
+import no.mesan.service.LeaderboardService;
 import no.mesan.service.LogService;
 import org.flywaydb.core.Flyway;
 import org.skife.jdbi.v2.DBI;
@@ -58,6 +61,9 @@ public class FriskApplication extends Application<FriskConfiguration> {
                         jdbi.onDemand(UserDao.class))));
         environment.jersey().register(new LogResource(
                 new LogService(jdbi.onDemand(LogDao.class))
+        ));
+        environment.jersey().register(new LeaderboardResource(
+                new LeaderboardService(jdbi.onDemand(LeaderboardDao.class))
         ));
     }
 }
