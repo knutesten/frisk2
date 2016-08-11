@@ -20,4 +20,8 @@ public class LogService {
     public int insert(User user, Type type) {
         return logDao.insert(user.getId(), type.getId());
     }
+
+    public void delete(User user) {
+        logDao.undo(user.getId());
+    }
 }

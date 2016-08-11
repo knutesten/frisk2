@@ -5,6 +5,7 @@ import no.mesan.model.Type;
 import no.mesan.model.User;
 import no.mesan.service.LogService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
@@ -21,6 +22,7 @@ public class LogResource {
     }
 
     @GET
+    @RolesAllowed("USER")
     public Response getLog() {
         return Response.ok(logService.getLog()).build();
     }
@@ -28,5 +30,12 @@ public class LogResource {
     @POST
     public Response insert(@Auth User user, Type type) {
         return Response.ok(logService.insert(user, type)).build();
+    }
+
+    @DELETE
+    @Path("/undo")
+    public Response undo(@Auth User user) {
+        logService.delete(user);
+        return Response.noContent().build();
     }
 }

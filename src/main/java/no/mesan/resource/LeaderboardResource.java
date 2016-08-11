@@ -2,6 +2,7 @@ package no.mesan.resource;
 
 import no.mesan.service.LeaderboardService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,6 +20,7 @@ public class LeaderboardResource {
     }
 
     @GET
+    @RolesAllowed("USER")
     public Response getLeaderboard() {
         return Response.ok(leaderboardService.getLeaderboard()).build();
     }
