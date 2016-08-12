@@ -9,8 +9,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static no.mesan.resource.RestUrlPattern.API;
 
-@Path("/leaderboard")
+@Path(API + "/leaderboard")
 @Produces(APPLICATION_JSON)
 public class LeaderboardResource {
     private LeaderboardService leaderboardService;

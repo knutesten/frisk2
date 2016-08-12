@@ -9,7 +9,7 @@
     <version>0.0.1</version>
 
     <properties>
-        <dropwizard.version>1.0.0</dropwizard.version>
+        <dropwizard.version>0.9.1</dropwizard.version>
         <dropwizard-java8.version>0.9.0-1</dropwizard-java8.version>
         <flyway.version>4.0.3</flyway.version>
         <jjwt.version>0.6.0</jjwt.version>

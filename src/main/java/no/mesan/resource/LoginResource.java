@@ -1,17 +1,20 @@
 package no.mesan.resource;
+
 import no.mesan.auth.AuthenticationService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Optional;
 
-@Path("/auth")
-@Produces(MediaType.APPLICATION_JSON)
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static no.mesan.resource.RestUrlPattern.API;
+
+@Path(API + "/auth")
+@Produces(APPLICATION_JSON)
 public class LoginResource {
     private AuthenticationService authenticationService;
 

@@ -22,15 +22,15 @@ public class OpenIdUtil {
     public OpenIdUtil(OpenIdConfiguration openIdConfiguration) {
         this.config = openIdConfiguration;
 
-        if (discoveryDocument == null) {
-            Response response = ClientBuilder.newClient().target(config.getDiscoveryDocumentUrl()).request().get();
-            discoveryDocument = response.readEntity(JsonNode.class);
-        }
+//        if (discoveryDocument == null) {
+//            Response response = ClientBuilder.newClient().target(config.getDiscoveryDocumentUrl()).request().get();
+//            discoveryDocument = response.readEntity(JsonNode.class);
+//        }
 
-        if (jwks == null) {
-            Response response = ClientBuilder.newClient().target(discoveryDocument.get("jwks_uri").asText()).request().get();
-            jwks = response.readEntity(JsonNode.class).get("keys");
-        }
+//        if (jwks == null) {
+//            Response response = ClientBuilder.newClient().target(discoveryDocument.get("jwks_uri").asText()).request().get();
+//            jwks = response.readEntity(JsonNode.class).get("keys");
+//        }
     }
 
     URI getAuthorizationEndpoint() {

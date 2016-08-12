@@ -44,7 +44,9 @@ public class FriskApplication extends Application<FriskConfiguration> {
 
         environment.getObjectMapper().disable(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS);
 
-        environment.jersey().setUrlPattern("/api");
+        // Does not work in version 0.9.1 of dropwizard
+//        environment.jersey().setUrlPattern("/api");
+
         environment.jersey().register(new AuthDynamicFeature(
                 new OAuthCredentialAuthFilter.Builder<User>()
                         .setAuthenticator(new OpenIdAuthenticator(jdbi.onDemand(UserDao.class)))
