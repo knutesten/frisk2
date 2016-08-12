@@ -1,0 +1,22 @@
+database:
+  driverClass: org.postgresql.Driver
+  user: uyncxsrvatbrgs
+  password: IaPsTNT64gv8E3CVLZwLqgi5kn
+  url: jdbc:postgresql://ec2-46-137-73-65.eu-west-1.compute.amazonaws.com:5432/d8ibmq6n8um534
+  properties:
+    charSet: UTF-8
+  maxWaitForConnection: 1s
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+  validationQueryTimeout: 3s
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false
+  evictionInterval: 10s
+  minIdleTime: 1 minute
+
+openId:
+  discoveryDocumentUrl: "https://accounts.google.com/.well-known/openid-configuration"
+  clientId: "241147659016-791b524s2vffs0ogt4mnoq2ole988tcu.apps.googleusercontent.com"
+  clientSecret: "G3CzwAZZuuKIh_h-jJ6Qtptz"
+  redirectUri: "http://frisk2.herokuapp.com"
+  jwtSecret: ">3Ke:H{jn*H/PA:uE~D:3McJ]#F%k;+ger$tzy}VJcUh?*hn^s"
