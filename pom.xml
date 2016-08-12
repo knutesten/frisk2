@@ -6,7 +6,7 @@
 
     <artifactId>frisk</artifactId>
     <groupId>no.mesan</groupId>
-    <version>0.0.1</version>
+    <version>0.1.0.beta</version>
 
     <properties>
         <dropwizard.version>0.9.1</dropwizard.version>
@@ -74,6 +74,7 @@
     </dependencies>
 
     <build>
+        <finalName>frisk</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
