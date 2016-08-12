@@ -14,6 +14,7 @@
         <flyway.version>4.0.3</flyway.version>
         <jjwt.version>0.6.0</jjwt.version>
         <postgres.version>9.4.1207</postgres.version>
+        <dropwizard-websocket.version>1.1.0</dropwizard-websocket.version>
     </properties>
 
     <dependencies>
@@ -41,6 +42,11 @@
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-testing</artifactId>
             <version>${dropwizard.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.liveperson</groupId>
+            <artifactId>dropwizard-websockets</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <dependency>

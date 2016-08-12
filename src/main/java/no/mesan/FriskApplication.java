@@ -1,6 +1,10 @@
 package no.mesan;
 
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.db.DataSourceFactory;
@@ -8,7 +12,9 @@ import io.dropwizard.java8.auth.AuthDynamicFeature;
 import io.dropwizard.java8.auth.oauth.OAuthCredentialAuthFilter;
 import io.dropwizard.java8.jdbi.DBIFactory;
 import io.dropwizard.java8.jdbi.OptionalContainerFactory;
+import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.dropwizard.websockets.WebsocketBundle;
 import no.mesan.auth.AuthenticationService;
 import no.mesan.auth.OpenIdAuthenticator;
 import no.mesan.auth.OpenIdUtil;
@@ -18,16 +24,30 @@ import no.mesan.dao.LogDao;
 import no.mesan.dao.TypeDao;
 import no.mesan.dao.UserDao;
 import no.mesan.model.User;
-import no.mesan.resource.*;
+import no.mesan.resource.LeaderboardResource;
+import no.mesan.resource.LogResource;
+import no.mesan.resource.LoginResource;
+import no.mesan.resource.TypeResource;
 import no.mesan.service.LeaderboardService;
 import no.mesan.service.LogService;
 import no.mesan.service.TypeService;
+import no.mesan.websocket.LogUpdate;
 import org.flywaydb.core.Flyway;
 import org.skife.jdbi.v2.DBI;
+
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.util.Date;
 
 public class FriskApplication extends Application<FriskConfiguration> {
     public static void main(String[] args) throws Exception {
         new FriskApplication().run(args);
+    }
+
+    @Override
+    public void initialize(Bootstrap<FriskConfiguration> bootstrap) {
+        bootstrap.addBundle(new WebsocketBundle(LogUpdate.class));
     }
 
     @Override
@@ -42,6 +62,8 @@ public class FriskApplication extends Application<FriskConfiguration> {
         DBI jdbi = factory.build(environment, dataSourceFactory, "postgresql");
         jdbi.registerContainerFactory(new OptionalContainerFactory());
 
+//      This line can be removed when upgrading to dropwizard 1.0.0
+        environment.getObjectMapper().registerModule(new JavaTimeModule());
         environment.getObjectMapper().disable(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS);
 
         // Does not work in version 0.9.1 of dropwizard
@@ -49,7 +71,9 @@ public class FriskApplication extends Application<FriskConfiguration> {
 
         environment.jersey().register(new AuthDynamicFeature(
                 new OAuthCredentialAuthFilter.Builder<User>()
-                        .setAuthenticator(new OpenIdAuthenticator(jdbi.onDemand(UserDao.class)))
+                        .setAuthenticator(new OpenIdAuthenticator(
+                                jdbi.onDemand(UserDao.class),
+                                configuration.getOpenIdconfiguration().getJwtSecret()))
                         .setPrefix("Bearer")
                         .buildAuthFilter()));
 

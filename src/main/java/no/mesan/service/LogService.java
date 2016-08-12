@@ -5,6 +5,7 @@ import no.mesan.dao.LogDao;
 import no.mesan.model.LogEntry;
 import no.mesan.model.Type;
 import no.mesan.model.User;
+import no.mesan.websocket.LogUpdate;
 
 public class LogService {
     private LogDao logDao;
@@ -18,10 +19,13 @@ public class LogService {
     }
 
     public int insert(User user, Type type) {
-        return logDao.insert(user.getId(), type.getId());
+        int id = logDao.insert(user.getId(), type.getId());
+        LogUpdate.updateClients();
+        return id;
     }
 
     public void delete(User user) {
         logDao.undo(user.getId());
+        LogUpdate.updateClients();
     }
 }

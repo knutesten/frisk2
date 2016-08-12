@@ -18,19 +18,20 @@ public class OpenIdUtil {
     private final OpenIdConfiguration config;
     private static JsonNode discoveryDocument;
     private static JsonNode jwks;
+    private byte[] jwtSecret;
 
     public OpenIdUtil(OpenIdConfiguration openIdConfiguration) {
         this.config = openIdConfiguration;
 
-//        if (discoveryDocument == null) {
-//            Response response = ClientBuilder.newClient().target(config.getDiscoveryDocumentUrl()).request().get();
-//            discoveryDocument = response.readEntity(JsonNode.class);
-//        }
+        if (discoveryDocument == null) {
+            Response response = ClientBuilder.newClient().target(config.getDiscoveryDocumentUrl()).request().get();
+            discoveryDocument = response.readEntity(JsonNode.class);
+        }
 
-//        if (jwks == null) {
-//            Response response = ClientBuilder.newClient().target(discoveryDocument.get("jwks_uri").asText()).request().get();
-//            jwks = response.readEntity(JsonNode.class).get("keys");
-//        }
+        if (jwks == null) {
+            Response response = ClientBuilder.newClient().target(discoveryDocument.get("jwks_uri").asText()).request().get();
+            jwks = response.readEntity(JsonNode.class).get("keys");
+        }
     }
 
     URI getAuthorizationEndpoint() {
@@ -70,5 +71,9 @@ public class OpenIdUtil {
         } catch (InvalidKeySpecException | NoSuchAlgorithmException ex) {
             throw new IllegalArgumentException(ex);
         }
+    }
+
+    String getJwtSecret() {
+        return config.getJwtSecret();
     }
 }

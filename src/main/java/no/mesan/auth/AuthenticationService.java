@@ -67,7 +67,7 @@ public class AuthenticationService {
             return userDao.getUserByEmail(email).isPresent() ?
                     Optional.of(Jwts.builder()
                             .claim("email", email)
-                            .signWith(SignatureAlgorithm.HS512, "secret")
+                            .signWith(SignatureAlgorithm.HS512, openIdUtil.getJwtSecret())
                             .compact()):
                     Optional.empty();
         }

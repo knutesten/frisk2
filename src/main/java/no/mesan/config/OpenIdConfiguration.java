@@ -1,12 +1,11 @@
 package no.mesan.config;
 
-import java.net.URL;
-
 public class OpenIdConfiguration {
     private String discoveryDocumentUrl;
     private String clientId;
     private String clientSecret;
     private String redirectUri;
+    private String jwtSecret;
 
     public String getDiscoveryDocumentUrl() {
         return discoveryDocumentUrl;
@@ -38,5 +37,13 @@ public class OpenIdConfiguration {
 
     public void setRedirectUri(String redirectUri) {
         this.redirectUri = redirectUri;
+    }
+
+    public String getJwtSecret() {
+        return jwtSecret;
+    }
+
+    public void setJwtSecret(String jwtSecret) {
+        this.jwtSecret = jwtSecret;
     }
 }
