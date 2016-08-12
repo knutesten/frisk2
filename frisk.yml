@@ -1,3 +1,10 @@
+server:
+  type: simple
+  applicationContextPath: /api
+  connector:
+    type: http
+    port: 8080
+
 database:
   driverClass: org.postgresql.Driver
   user: frisk

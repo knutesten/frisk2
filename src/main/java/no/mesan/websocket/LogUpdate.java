@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-@ServerEndpoint("/api/update")
+@ServerEndpoint("/update")
 public class LogUpdate {
     private static Set<Session> sessions = ConcurrentHashMap.newKeySet();
 

@@ -1,9 +1,6 @@
 package no.mesan;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthValueFactoryProvider;
@@ -35,11 +32,6 @@ import no.mesan.websocket.LogUpdate;
 import org.flywaydb.core.Flyway;
 import org.skife.jdbi.v2.DBI;
 
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
-import java.util.Date;
-
 public class FriskApplication extends Application<FriskConfiguration> {
     public static void main(String[] args) throws Exception {
         new FriskApplication().run(args);
@@ -65,9 +57,6 @@ public class FriskApplication extends Application<FriskConfiguration> {
 //      This line can be removed when upgrading to dropwizard 1.0.0
         environment.getObjectMapper().registerModule(new JavaTimeModule());
         environment.getObjectMapper().disable(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS);
-
-        // Does not work in version 0.9.1 of dropwizard
-//        environment.jersey().setUrlPattern("/api");
 
         environment.jersey().register(new AuthDynamicFeature(
                 new OAuthCredentialAuthFilter.Builder<User>()

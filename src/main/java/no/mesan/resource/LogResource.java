@@ -10,9 +10,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static no.mesan.resource.RestUrlPattern.API;
 
-@Path(API + "/log")
+@Path("/log")
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
 public class LogResource {

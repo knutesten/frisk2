@@ -11,9 +11,8 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static no.mesan.resource.RestUrlPattern.API;
 
-@Path(API + "/auth")
+@Path("/auth")
 @Produces(APPLICATION_JSON)
 public class LoginResource {
     private AuthenticationService authenticationService;
