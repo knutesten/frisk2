@@ -1,6 +1,5 @@
 package no.mesan.websocket;
 
-
 import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -15,13 +14,11 @@ public class LogUpdate {
 
     @OnClose
     public void onClose(Session session) {
-        System.out.println("close");
         sessions.remove(session);
     }
 
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println("open");
         sessions.add(session);
     }
 
