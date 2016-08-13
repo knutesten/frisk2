@@ -1,6 +1,7 @@
 package no.mesan.websocket;
 
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -20,6 +21,11 @@ public class LogUpdate {
     @OnOpen
     public void onOpen(Session session) {
         sessions.add(session);
+    }
+
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        throwable.printStackTrace();
     }
 
     public static void updateClients() {
