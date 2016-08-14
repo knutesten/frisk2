@@ -14,7 +14,7 @@
         <flyway.version>4.0.3</flyway.version>
         <jjwt.version>0.6.0</jjwt.version>
         <postgres.version>9.4.1207</postgres.version>
-        <dropwizard-websocket.version>1.1.0</dropwizard-websocket.version>
+        <dropwizard-websocket.version>1.2</dropwizard-websocket.version>
     </properties>
 
     <dependencies>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.liveperson</groupId>
             <artifactId>dropwizard-websockets</artifactId>
-            <version>1.2</version>
+            <version>${dropwizard-websocket.version}</version>
         </dependency>
 
         <dependency>
