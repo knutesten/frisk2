@@ -3,6 +3,7 @@ package no.mesan;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.java8.auth.AuthDynamicFeature;
@@ -40,6 +41,7 @@ public class FriskApplication extends Application<FriskConfiguration> {
     @Override
     public void initialize(Bootstrap<FriskConfiguration> bootstrap) {
         bootstrap.addBundle(new WebsocketBundle(LogUpdate.class));
+        bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html"));
     }
 
     @Override
@@ -54,7 +56,7 @@ public class FriskApplication extends Application<FriskConfiguration> {
         DBI jdbi = factory.build(environment, dataSourceFactory, "postgresql");
         jdbi.registerContainerFactory(new OptionalContainerFactory());
 
-//      This line can be removed when upgrading to dropwizard 1.0.0
+        // TODO: This line can be removed when upgrading to dropwizard 1.0.0
         environment.getObjectMapper().registerModule(new JavaTimeModule());
         environment.getObjectMapper().disable(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS);
 

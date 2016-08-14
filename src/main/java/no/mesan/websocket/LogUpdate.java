@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@ServerEndpoint("/update")
+@ServerEndpoint("/api/update")
 public class LogUpdate {
     private static Set<Session> sessions = ConcurrentHashMap.newKeySet();
     private static ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();

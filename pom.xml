@@ -6,7 +6,7 @@
 
     <artifactId>frisk</artifactId>
     <groupId>no.mesan</groupId>
-    <version>0.1.0.beta</version>
+    <version>0.2.0.beta</version>
 
     <properties>
         <dropwizard.version>0.9.1</dropwizard.version>
@@ -47,6 +47,11 @@
             <groupId>com.liveperson</groupId>
             <artifactId>dropwizard-websockets</artifactId>
             <version>${dropwizard-websocket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-assets</artifactId>
+            <version>${dropwizard.version}</version>
         </dependency>
 
         <dependency>

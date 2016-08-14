@@ -1,15 +1,16 @@
 server:
   type: simple
-  applicationContextPath: /api
+  rootPath: /api/*
+  applicationContextPath: /
   connector:
     type: http
     port: 8080
 
 database:
   driverClass: org.postgresql.Driver
-  user: uyncxsrvatbrgs
-  password: IaPsTNT64gv8E3CVLZwLqgi5kn
-  url: jdbc:postgresql://ec2-46-137-73-65.eu-west-1.compute.amazonaws.com:5432/d8ibmq6n8um534
+  user: fxdjmuljanxcee
+  password: cKf1WZ4l1cnbTTZxlAiSUo0IBF
+  url: jdbc:postgresql://ec2-54-228-219-2.eu-west-1.compute.amazonaws.com:5432/dahjr1gn67cg0f
   properties:
     charSet: UTF-8
   maxWaitForConnection: 1s
