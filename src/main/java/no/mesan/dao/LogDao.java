@@ -20,11 +20,21 @@ public interface LogDao {
               "LIMIT :limit OFFSET :offset")
     ImmutableList<LogEntry> getLog(@Bind("limit") int limit, @Bind("offset") int offset);
 
-
     @SqlUpdate("INSERT INTO log (date, user_id, type_id) VALUES (NOW(), :userId, :typeId)")
     int insert(@Bind("userId") int userId, @Bind("typeId") int typeId);
 
     @SqlUpdate("DELETE FROM log WHERE id = (SELECT id FROM log WHERE user_id = :userId ORDER BY date DESC LIMIT 1)")
     void undo(@Bind("userId") int userId);
+
+    @RegisterMapper(LogMapper.class)
+    @SqlQuery("SELECT log.id as log_id, user_id, type_id, date, name, amount, first_name, last_name, username, email " +
+              "FROM log " +
+                "JOIN type " +
+                  "ON log.type_id = type.id " +
+                "JOIN \"user\" " +
+                  "ON log.user_id = \"user\".id " +
+              "WHERE date > (CURRENT_DATE - INTERVAL '1 DAY') AND user_id = :userId " +
+              "ORDER BY date ASC ")
+    ImmutableList<LogEntry> getTodaysConsumption(@Bind("userId") int userId);
 }
 

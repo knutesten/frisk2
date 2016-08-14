@@ -27,6 +27,12 @@ public class LogResource {
         return Response.ok(logService.getLog()).build();
     }
 
+    @GET
+    @Path("today")
+    public Response getTodaysConsumption(@Auth User user) {
+        return Response.ok(logService.getTodaysConsumption(user)).build();
+    }
+
     @POST
     public Response insert(@Auth User user, Type type) {
         return Response.ok(logService.insert(user, type)).build();

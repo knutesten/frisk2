@@ -28,4 +28,8 @@ public class LogService {
         logDao.undo(user.getId());
         LogUpdate.updateClients();
     }
+
+    public ImmutableList<LogEntry> getTodaysConsumption(User user) {
+        return logDao.getTodaysConsumption(user.getId());
+    }
 }
