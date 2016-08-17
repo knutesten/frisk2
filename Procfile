@@ -1,1 +1,0 @@
-web: java $JAVA_OPTS -Ddw.server.connector.port=$PORT -jar target/frisk.jar server frisk_prod.yml
