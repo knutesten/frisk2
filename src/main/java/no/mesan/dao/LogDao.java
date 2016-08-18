@@ -23,7 +23,7 @@ public interface LogDao {
     @SqlUpdate("INSERT INTO log (date, user_id, type_id) VALUES (NOW(), :userId, :typeId)")
     int insert(@Bind("userId") int userId, @Bind("typeId") int typeId);
 
-    @SqlUpdate("DELETE FROM log WHERE id = (SELECT id FROM log WHERE user_id = :userId ORDER BY date DESC LIMIT 1)")
+    @SqlUpdate("DELETE FROM log WHERE id = (SELECT id FROM log WHERE user_id = :userId AND date >= (NOW() - INTERVAL '5' MINUTE) ORDER BY date DESC LIMIT 1)")
     void undo(@Bind("userId") int userId);
 
     @RegisterMapper(LogMapper.class)
