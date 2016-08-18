@@ -33,7 +33,7 @@ public interface LogDao {
                   "ON log.type_id = type.id " +
                 "JOIN \"user\" " +
                   "ON log.user_id = \"user\".id " +
-              "WHERE date > (CURRENT_DATE - INTERVAL '1 DAY') AND user_id = :userId " +
+              "WHERE date > CURRENT_DATE AND user_id = :userId " +
               "ORDER BY date ASC ")
     ImmutableList<LogEntry> getTodaysConsumption(@Bind("userId") int userId);
 }
