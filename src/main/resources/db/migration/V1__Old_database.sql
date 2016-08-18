@@ -79,25 +79,6 @@ CREATE SEQUENCE frisk_consume_type_id_seq
 
 ALTER SEQUENCE frisk_consume_type_id_seq OWNED BY type.id;
 
-
---
--- Name: schema_version; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE schema_version (
-    installed_rank integer NOT NULL,
-    version character varying(50),
-    description character varying(200) NOT NULL,
-    type character varying(20) NOT NULL,
-    script character varying(1000) NOT NULL,
-    checksum integer,
-    installed_by character varying(100) NOT NULL,
-    installed_on timestamp without time zone DEFAULT now() NOT NULL,
-    execution_time integer NOT NULL,
-    success boolean NOT NULL
-);
-
-
 --
 -- Name: user; Type: TABLE; Schema: public; Owner: -
 --
@@ -155,7 +136,7 @@ ALTER TABLE ONLY "user" ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regcl
 -- Name: consume_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('consume_log_id_seq', 2668, true);
+SELECT pg_catalog.setval('consume_log_id_seq', 2669, true);
 
 
 --
@@ -2733,20 +2714,8 @@ COPY log (id, date, user_id, type_id) FROM stdin;
 2666	2016-08-17 12:02:43.776116	1	1
 2667	2016-08-17 12:09:43.730848	2	1
 2668	2016-08-17 12:46:16.876301	1	2
+2669	2016-08-18 07:35:23.770744	2	1
 \.
-
-
---
--- Data for Name: schema_version; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY schema_version (installed_rank, version, description, type, script, checksum, installed_by, installed_on, execution_time, success) FROM stdin;
-1	1	old database	SQL	V1__old_database.sql	-190162943	fxdjmuljanxcee	2016-08-15 06:28:41.745233	305	t
-2	2	add email column to users and remove passord column	SQL	V2__add_email_column_to_users_and_remove_passord_column.sql	-1024810317	fxdjmuljanxcee	2016-08-15 06:28:42.135481	10	t
-3	3	drop flavour and project tables	SQL	V3__drop_flavour_and_project_tables.sql	1821826124	fxdjmuljanxcee	2016-08-15 06:28:42.167221	28	t
-4	4	rename to log and type	SQL	V4__rename_to_log_and_type.sql	1922061129	fxdjmuljanxcee	2016-08-15 06:28:42.216678	8	t
-\.
-
 
 --
 -- Data for Name: type; Type: TABLE DATA; Schema: public; Owner: -
@@ -2797,15 +2766,6 @@ ALTER TABLE ONLY log
 ALTER TABLE ONLY type
     ADD CONSTRAINT frisk_consume_type_pkey PRIMARY KEY (id);
 
-
---
--- Name: schema_version_pk; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY schema_version
-    ADD CONSTRAINT schema_version_pk PRIMARY KEY (installed_rank);
-
-
 --
 -- Name: user_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
@@ -2821,14 +2781,6 @@ ALTER TABLE ONLY "user"
 ALTER TABLE ONLY "user"
     ADD CONSTRAINT user_pkey PRIMARY KEY (id);
 
-
---
--- Name: schema_version_s_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX schema_version_s_idx ON schema_version USING btree (success);
-
-
 --
 -- Name: consume_type_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
@@ -2843,16 +2795,6 @@ ALTER TABLE ONLY log
 
 ALTER TABLE ONLY log
     ADD CONSTRAINT user_id_fk FOREIGN KEY (user_id) REFERENCES "user"(id);
-
-
---
--- Name: public; Type: ACL; Schema: -; Owner: -
---
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM fxdjmuljanxcee;
-GRANT ALL ON SCHEMA public TO fxdjmuljanxcee;
-GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 --
