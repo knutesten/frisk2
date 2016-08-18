@@ -136,7 +136,7 @@ ALTER TABLE ONLY "user" ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regcl
 -- Name: consume_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('consume_log_id_seq', 2669, true);
+SELECT pg_catalog.setval('consume_log_id_seq', 2671, true);
 
 
 --
