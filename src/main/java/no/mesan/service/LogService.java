@@ -25,8 +25,8 @@ public class LogService {
     }
 
     public void delete(User user) {
-        logDao.undo(user.getId());
-        LogUpdate.updateClients();
+        if (logDao.undo(user.getId()) > 0)
+            LogUpdate.updateClients();
     }
 
     public ImmutableList<LogEntry> getTodaysConsumption(User user) {

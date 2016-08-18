@@ -24,7 +24,7 @@ public interface LogDao {
     int insert(@Bind("userId") int userId, @Bind("typeId") int typeId);
 
     @SqlUpdate("DELETE FROM log WHERE id = (SELECT id FROM log WHERE user_id = :userId AND date >= (NOW() - INTERVAL '5' MINUTE) ORDER BY date DESC LIMIT 1)")
-    void undo(@Bind("userId") int userId);
+    int undo(@Bind("userId") int userId);
 
     @RegisterMapper(LogMapper.class)
     @SqlQuery("SELECT log.id as log_id, user_id, type_id, date, name, amount, first_name, last_name, username, email " +
@@ -33,7 +33,7 @@ public interface LogDao {
                   "ON log.type_id = type.id " +
                 "JOIN \"user\" " +
                   "ON log.user_id = \"user\".id " +
-              "WHERE date > CURRENT_DATE AND user_id = :userId " +
+              "WHERE date >= CURRENT_DATE AND user_id = :userId " +
               "ORDER BY date ASC ")
     ImmutableList<LogEntry> getTodaysConsumption(@Bind("userId") int userId);
 }
