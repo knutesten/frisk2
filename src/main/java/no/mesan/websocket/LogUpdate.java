@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class LogUpdate {
     private static Set<Session> sessions = ConcurrentHashMap.newKeySet();
     private static ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-    public LogUpdate() {
+    static {
         scheduledExecutorService.scheduleAtFixedRate(LogUpdate::keepConnectionsAlive, 0, 10, TimeUnit.SECONDS);
     }
 
