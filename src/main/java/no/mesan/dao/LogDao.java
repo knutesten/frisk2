@@ -36,5 +36,8 @@ public interface LogDao {
               "WHERE date >= CURRENT_DATE AND user_id = :userId " +
               "ORDER BY date ASC ")
     ImmutableList<LogEntry> getTodaysConsumption(@Bind("userId") int userId);
+
+    @SqlQuery("SELECT SUM(amount) FROM log JOIN type ON type_Id = type.id")
+    int getTotalConsumption();
 }
 

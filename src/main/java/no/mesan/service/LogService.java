@@ -32,4 +32,8 @@ public class LogService {
     public ImmutableList<LogEntry> getTodaysConsumption(User user) {
         return logDao.getTodaysConsumption(user.getId());
     }
+
+    public Object getTotalConsumption() {
+        return logDao.getTotalConsumption();
+    }
 }

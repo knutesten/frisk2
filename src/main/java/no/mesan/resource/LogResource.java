@@ -28,6 +28,13 @@ public class LogResource {
     }
 
     @GET
+    @Path("/total")
+    @RolesAllowed("USER")
+    public Response getTotal() {
+        return Response.ok(logService.getTotalConsumption()).build();
+    }
+
+    @GET
     @Path("today")
     public Response getTodaysConsumption(@Auth User user) {
         return Response.ok(logService.getTodaysConsumption(user)).build();
