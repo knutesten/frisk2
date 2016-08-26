@@ -22,10 +22,7 @@ import no.mesan.dao.LogDao;
 import no.mesan.dao.TypeDao;
 import no.mesan.dao.UserDao;
 import no.mesan.model.User;
-import no.mesan.resource.LeaderboardResource;
-import no.mesan.resource.LogResource;
-import no.mesan.resource.LoginResource;
-import no.mesan.resource.TypeResource;
+import no.mesan.resource.*;
 import no.mesan.service.LeaderboardService;
 import no.mesan.service.LogService;
 import no.mesan.service.TypeService;
@@ -84,5 +81,6 @@ public class FriskApplication extends Application<FriskConfiguration> {
         environment.jersey().register(new TypeResource(
                 new TypeService(jdbi.onDemand(TypeDao.class))
         ));
+        environment.jersey().register(new UserResource());
     }
 }
