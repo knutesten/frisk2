@@ -11,6 +11,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.security.Key;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Optional;
 
 public class AuthenticationService {
@@ -65,13 +68,18 @@ public class AuthenticationService {
                     .get("email", String.class);
 
             return userDao.getUserByEmail(email).isPresent() ?
-                    Optional.of(Jwts.builder()
-                            .claim("email", email)
-                            .signWith(SignatureAlgorithm.HS512, openIdUtil.getJwtSecret())
-                            .compact()):
+                    Optional.of(createJwtTokenForEmail(email)):
                     Optional.empty();
         }
 
         return Optional.empty();
+    }
+
+    public String createJwtTokenForEmail(String email) {
+        return Jwts.builder()
+                .claim("email", email)
+                .setExpiration(Date.from(Instant.now().plus(3, ChronoUnit.DAYS)))
+                .signWith(SignatureAlgorithm.HS512, openIdUtil.getJwtSecret())
+                .compact();
     }
 }
