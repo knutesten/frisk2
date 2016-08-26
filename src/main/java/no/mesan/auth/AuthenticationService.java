@@ -24,7 +24,7 @@ public class AuthenticationService {
         }
         @Override
         public Key resolveSigningKey(JwsHeader jwsHeader, String s) {
-            return openIdUtil.getKeyFromKIDandAlg(jwsHeader.getKeyId(), jwsHeader.getAlgorithm());
+            return openIdUtil.getKeyFromKidAndAlg(jwsHeader.getKeyId(), jwsHeader.getAlgorithm());
         }
     };
 

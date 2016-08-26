@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.jsonwebtoken.impl.Base64Codec;
 import no.mesan.config.OpenIdConfiguration;
 
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.net.URI;
 import java.security.Key;
@@ -16,30 +14,19 @@ import java.security.spec.RSAPublicKeySpec;
 
 public class OpenIdUtil {
     private final OpenIdConfiguration config;
-    private static JsonNode discoveryDocument;
-    private static JsonNode jwks;
-    private byte[] jwtSecret;
+    private final DiscoveryDocumentCache cache;
 
-    public OpenIdUtil(OpenIdConfiguration openIdConfiguration) {
+    public OpenIdUtil(OpenIdConfiguration openIdConfiguration, DiscoveryDocumentCache discoveryDocumentCache) {
         this.config = openIdConfiguration;
-
-        if (discoveryDocument == null) {
-            Response response = ClientBuilder.newClient().target(config.getDiscoveryDocumentUrl()).request().get();
-            discoveryDocument = response.readEntity(JsonNode.class);
-        }
-
-        if (jwks == null) {
-            Response response = ClientBuilder.newClient().target(discoveryDocument.get("jwks_uri").asText()).request().get();
-            jwks = response.readEntity(JsonNode.class).get("keys");
-        }
+        this.cache = discoveryDocumentCache;
     }
 
     URI getAuthorizationEndpoint() {
-        return URI.create(discoveryDocument.get("authorization_endpoint").asText());
+        return URI.create(cache.getDiscoveryDocument().get("authorization_endpoint").asText());
     }
 
     URI getTokenEndpoint() {
-        return URI.create(discoveryDocument.get("token_endpoint").asText());
+        return URI.create(cache.getDiscoveryDocument().get("token_endpoint").asText());
     }
 
     String getClientId() {
@@ -54,8 +41,13 @@ public class OpenIdUtil {
         return config.getRedirectUri();
     }
 
-    Key getKeyFromKIDandAlg(String kid, String alg) {
-        for (JsonNode jwk : jwks)
+    String getJwtSecret() {
+        return config.getJwtSecret();
+    }
+
+
+    Key getKeyFromKidAndAlg(String kid, String alg) {
+        for (JsonNode jwk : cache.getJwksKeys())
             if (jwk.get("kid").asText().equals(kid) && jwk.get("alg").asText().equals(alg))
                 return createKey(jwk.get("n").asText(), jwk.get("e").asText());
 
@@ -71,9 +63,5 @@ public class OpenIdUtil {
         } catch (InvalidKeySpecException | NoSuchAlgorithmException ex) {
             throw new IllegalArgumentException(ex);
         }
-    }
-
-    String getJwtSecret() {
-        return config.getJwtSecret();
     }
 }

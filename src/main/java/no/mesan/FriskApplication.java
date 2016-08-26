@@ -13,6 +13,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.websockets.WebsocketBundle;
 import no.mesan.auth.AuthenticationService;
+import no.mesan.auth.DiscoveryDocumentCache;
 import no.mesan.auth.OpenIdAuthenticator;
 import no.mesan.auth.OpenIdUtil;
 import no.mesan.config.FriskConfiguration;
@@ -70,7 +71,9 @@ public class FriskApplication extends Application<FriskConfiguration> {
 
         environment.jersey().register(new LoginResource(
                 new AuthenticationService(
-                        new OpenIdUtil(configuration.getOpenIdconfiguration()),
+                        new OpenIdUtil(
+                                configuration.getOpenIdconfiguration(),
+                                new DiscoveryDocumentCache(configuration.getOpenIdconfiguration().getDiscoveryDocumentUrl())),
                         jdbi.onDemand(UserDao.class))));
         environment.jersey().register(new LogResource(
                 new LogService(jdbi.onDemand(LogDao.class))
