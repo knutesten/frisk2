@@ -15,6 +15,8 @@
         <jjwt.version>0.6.0</jjwt.version>
         <postgres.version>9.4.1207</postgres.version>
         <dropwizard-websocket.version>1.2</dropwizard-websocket.version>
+        <dbunit.version>2.4.9</dbunit.version>
+        <h2.version>1.4.192</h2.version>
     </properties>
 
     <dependencies>
@@ -48,7 +50,6 @@
             <artifactId>dropwizard-websockets</artifactId>
             <version>${dropwizard-websocket.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
@@ -60,16 +61,36 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>4.0.3</version>
+            <version>${flyway.version}</version>
        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgres.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>${dbunit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.12.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.3</version>
         </dependency>
     </dependencies>
 
