@@ -20,7 +20,7 @@ public class OpenIdAuthenticator implements Authenticator<String, User> {
     }
 
     @Override
-    public Optional<User> authenticate(String token) throws AuthenticationException {
+    public Optional<User> authenticate(String token) {
         try {
             final Claims claims = Jwts.parser()
                     .setSigningKey(jwtSecret)

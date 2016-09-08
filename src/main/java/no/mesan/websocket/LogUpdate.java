@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
 @ServerEndpoint("/api/update")
 public class LogUpdate {
     private static Set<Session> sessions = ConcurrentHashMap.newKeySet();
-    private static ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
     static {
-        scheduledExecutorService.scheduleAtFixedRate(LogUpdate::keepConnectionsAlive, 0, 10, TimeUnit.SECONDS);
+        Executors.newSingleThreadScheduledExecutor()
+                .scheduleAtFixedRate(() -> sendTextToAllSessions("heartbeat"), 0, 10, TimeUnit.SECONDS);
     }
 
     @OnClose
@@ -33,10 +33,6 @@ public class LogUpdate {
     @OnError
     public void onError(Session session, Throwable throwable) {
         throwable.printStackTrace();
-    }
-
-    private static void keepConnectionsAlive() {
-        sendTextToAllSessions("heartbeat");
     }
 
     public static void updateClients() {
