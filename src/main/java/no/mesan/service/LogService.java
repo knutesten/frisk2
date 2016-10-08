@@ -5,7 +5,7 @@ import no.mesan.dao.LogDao;
 import no.mesan.model.LogEntry;
 import no.mesan.model.Type;
 import no.mesan.model.User;
-import no.mesan.websocket.LogUpdate;
+import no.mesan.websocket.update.LogUpdate;
 
 public class LogService {
     private LogDao logDao;

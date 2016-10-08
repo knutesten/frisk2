@@ -1,4 +1,4 @@
-package no.mesan.websocket;
+package no.mesan.websocket.update;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;

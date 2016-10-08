@@ -26,7 +26,8 @@ import no.mesan.resource.*;
 import no.mesan.service.LeaderboardService;
 import no.mesan.service.LogService;
 import no.mesan.service.TypeService;
-import no.mesan.websocket.LogUpdate;
+import no.mesan.websocket.chat.Chat;
+import no.mesan.websocket.update.LogUpdate;
 import org.flywaydb.core.Flyway;
 import org.skife.jdbi.v2.DBI;
 
@@ -37,7 +38,7 @@ public class FriskApplication extends Application<FriskConfiguration> {
 
     @Override
     public void initialize(Bootstrap<FriskConfiguration> bootstrap) {
-        bootstrap.addBundle(new WebsocketBundle(LogUpdate.class));
+        bootstrap.addBundle(new WebsocketBundle(LogUpdate.class, Chat.class));
     }
 
     @Override
