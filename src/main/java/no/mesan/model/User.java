@@ -3,6 +3,7 @@ package no.mesan.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.security.Principal;
+import java.util.Objects;
 
 public class User implements Principal{
     private final int id;
@@ -44,5 +45,21 @@ public class User implements Principal{
     @Override
     public String getName() {
         return username;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) return false;
+        if (object == this) return true;
+        if (object instanceof User) {
+            User other = (User) object;
+            return
+                    Objects.equals(other.id,        this.id) &&
+                    Objects.equals(other.firstName, this.firstName) &&
+                    Objects.equals(other.lastName,  this.lastName) &&
+                    Objects.equals(other.username,  this.username) &&
+                    Objects.equals(other.email,     this.email);
+        }
+        return false;
     }
 }

@@ -7,9 +7,13 @@ node {
 
   stage('Build') {
     sh 'mvn clean install -DskipTests'
+    if (env.BRANCH_NAME == 'master') {
+      step([$class: 'ArtifactArchiver', artifacts: '**/target/frisk.jar', fingerprint: true])
+    }
   }
 
   stage('Test') {
     sh 'mvn test'
+    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
   }
 }
