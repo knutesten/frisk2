@@ -7,7 +7,9 @@ node {
 
   stage('Build') {
     sh 'mvn clean install -DskipTests'
-    step([$class: 'ArtifactArchiver', artifacts: '**/target/frisk.jar', fingerprint: true])
+    if (env.BRANCH_NAME == 'master') {
+      step([$class: 'ArtifactArchiver', artifacts: '**/target/frisk.jar', fingerprint: true])
+    }
   }
 
   stage('Test') {
