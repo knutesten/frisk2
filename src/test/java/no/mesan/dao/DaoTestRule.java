@@ -17,6 +17,7 @@ import org.skife.jdbi.v2.DBI;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,43 +26,41 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 class DaoTestRule<T> implements MethodRule {
-    private static final DBI jdbi;
-    private static final DataSource dataSource;
-    private static final String DATA_SET_PATH = "db/dataset/";
+    private static final DBI JDBI;
+    private static final DataSource DATA_SOURCE;
+    private static final Flyway FLYWAY;
+
     private T dao;
 
     static {
-        dataSource = new JDBCDataSource();
-        ((JDBCDataSource)dataSource).setUrl("mem;sql.syntax_pgs=true;shutdown=true;");
-        ((JDBCDataSource)dataSource).setUser("frisk");
-        ((JDBCDataSource)dataSource).setPassword("");
+        DATA_SOURCE = new JDBCDataSource();
+        ((JDBCDataSource) DATA_SOURCE).setUrl("mem;sql.syntax_pgs=true;shutdown=true;");
+        ((JDBCDataSource) DATA_SOURCE).setUser("frisk");
+        ((JDBCDataSource) DATA_SOURCE).setPassword("");
 
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(dataSource);
-        flyway.clean();
-        flyway.migrate();
+        FLYWAY = new Flyway();
+        FLYWAY.setDataSource(DATA_SOURCE);
 
-        jdbi = new DBI(dataSource);
-        jdbi.registerContainerFactory(new OptionalContainerFactory());
+        JDBI = new DBI(DATA_SOURCE);
+        JDBI.registerContainerFactory(new OptionalContainerFactory());
     }
 
     DaoTestRule(Class<T> clazz) {
-        dao = jdbi.onDemand(clazz);
+        dao = JDBI.onDemand(clazz);
     }
 
     T getDao() {
         return dao;
     }
 
-    private void initDataSet(String dataSetPath) {
+    private void initDataSet(String filePath) {
         try {
-            IDatabaseConnection databaseConnection = new DatabaseConnection(dataSource.getConnection());
+            IDatabaseConnection databaseConnection = new DatabaseConnection(DATA_SOURCE.getConnection());
             databaseConnection.getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, true);
             databaseConnection.getConfig().setProperty(DatabaseConfig.PROPERTY_ESCAPE_PATTERN, "\"");
-            IDataSet dataSet = new YamlDataSet(
-                    new File(ClassLoader.getSystemResource(DATA_SET_PATH + dataSetPath).getFile()));
+            IDataSet dataSet = new YamlDataSet(new File(filePath));
             DatabaseOperation.CLEAN_INSERT.execute(databaseConnection, dataSet);
-        } catch (DatabaseUnitException | SQLException | FileNotFoundException e) {
+        } catch (DatabaseUnitException | SQLException | FileNotFoundException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
@@ -74,10 +73,15 @@ class DaoTestRule<T> implements MethodRule {
 
     @Override
     public Statement apply(Statement statement, FrameworkMethod frameworkMethod, Object o) {
+        FLYWAY.clean();
+        FLYWAY.migrate();
+
         DataSet dataSet = frameworkMethod.getAnnotation(DataSet.class);
         if (dataSet != null) {
-            Arrays.stream(dataSet.value()).forEach(this::initDataSet);
+            Arrays.stream(dataSet.value())
+                    .forEach(it -> initDataSet(frameworkMethod.getDeclaringClass().getResource(it).getFile()));
         }
+
         return statement;
     }
 }
