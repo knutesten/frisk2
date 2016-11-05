@@ -11,5 +11,6 @@ node {
 
   stage('Test') {
     sh 'mvn test'
+    step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*.xml'])
   }
 }
